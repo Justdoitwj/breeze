@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <!-- 日志存储路径 -->
+    <springProperty
+            scope="context"
+            name="defaultLogDir"
+            source="breeze.log.history.logDir"
+    />
+
+    <!-- 日志备份保留时长 -->
+    <springProperty
+            scope="context"
+            name="logMaxHistory"
+            source="breeze.log.history.maxHistory"
+    />
+
+    <!-- 日志大小 -->
+    <springProperty
+            scope="context"
+            name="logMaxSize"
+            source="breeze.log.history.logMaxSize"
+    />
+
+    <!--&lt;!&ndash;控制台日志， 控制台输出 &ndash;&gt;-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--文件日志， 按照每天生成日志文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${defaultLogDir:-/qy/qy-doctorservice/logs}/log/%d/credit.%d.%i.log</FileNamePattern>
+            <!--<FileNamePattern>D:\logs\log\%d\credit.%d.%i.log</FileNamePattern>-->
+            <!--日志文件保留天数-->
+            <MaxHistory>${logMaxHistory:-15}</MaxHistory>
+            <!--日志文件最大的大小-->
+            <MaxFileSize>${logMaxSize:-100MB}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- show parameters for hibernate sql 专为 Hibernate 定制 -->
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" />
+    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" />
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" />
+
+    <!--myibatis log configure-->
+    <logger name="com.apache.ibatis" level="TRACE"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
