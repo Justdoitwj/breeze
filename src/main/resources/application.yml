@@ -46,24 +46,20 @@ spring:
       #shiro 报错修改的地方
     max-connections: 200000
     max-http-post-size: 9000000
-  mvc:   #静态文件
-    static-path-pattern: /static/**
-  thymeleaf:
-    model: HTML5
-    prefix: classpath:/templates/
-    suffix: .html
+  mvc:
+    static-path-pattern: /static/**  #静态文件
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 mybatis:
   mapperLocations: classpath*:mybatis/*/*.xml
   executor-type: reuse
-  typeAliasesPackage: com.*.model
+  typeAliasesPackage: com.*.pojo
   configuration:
     map-underscore-to-camel-case: true
 #pagehelper分页插件
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count=countSql

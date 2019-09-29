@@ -1,4 +1,4 @@
-package com.app.breeze.comm.model;
+package com.app.breeze.comm.pojo.response;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.app.breeze.comm.enums.StatusCode;
@@ -10,7 +10,7 @@ import java.util.Collection;
 
 /**
  * @ProjectName: breeze
- * @PackageName: com.web.breeze.comm.model
+ * @PackageName: com.web.breeze.comm.pojo
  * @ClassName: BreezeResponse
  * @Description:
  * @author: wangjie

@@ -1,18 +1,17 @@
 package com.app.breeze.web.control;
 
-import com.app.breeze.comm.base.Callable;
-import com.app.breeze.comm.model.BreezeResponse;
+import com.app.breeze.comm.pojo.response.BreezeResponse;
 import com.app.breeze.service.UserService;
 import com.app.breeze.web.request.UserRequset;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.Callable;
 
 /**
  * <一句话功能简述>
@@ -22,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @see: [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
+@Slf4j
 @RestController
-@RequestMapping(value = "/v1/user/auth")
+@RequestMapping(value = "/v1/user")
 @Api(value = "UserLoginWeb", description = "用户登陆相关接口,此url路径不会有权限拦截")
 public class UserLoginController {
     @Autowired
@@ -43,6 +43,21 @@ public class UserLoginController {
         return ()-> userService.login(userInfo);
     }
 
+    @ApiOperation(value = "测试自定义异常", httpMethod = "GET",code = 200,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/testException",method = RequestMethod.GET, produces = { "application/json"})
+    public Callable<BreezeResponse> testException(@RequestBody @Validated UserRequset userInfo) {
+        return ()-> userService.testException();
+    }
+
+
+    /**
+     * 测试接口
+     */
+    @ApiOperation(value = "用户登陆", httpMethod = "GET",code = 200,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public Callable<BreezeResponse> test() {
+        return ()->userService.test();
+    }
     /**
      * 注册接口
      */
