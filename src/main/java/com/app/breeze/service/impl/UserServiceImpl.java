@@ -26,13 +26,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BreezeResponse test() {
-        log.info("测试接口");
         return BreezeResponse.success().setMessage("测试个接口");
     }
 
     @Override
     public BreezeResponse testException() {
-        log.info("测试接口");
         ResponseEnum.LICENCE_NOT_FOUND.assertNotNull(null);
         return BreezeResponse.success().setMessage("测试个接口");
     }

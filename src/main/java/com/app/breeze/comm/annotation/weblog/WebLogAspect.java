@@ -4,6 +4,7 @@ package com.app.breeze.comm.annotation.weblog;
 import com.app.breeze.utils.mapper.JsonMapper;
 import com.app.breeze.utils.rest.RequestUtil;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -37,7 +38,7 @@ public class WebLogAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
     private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
-    @Pointcut("execution(public * com.web.breeze.web.*.*(..))")
+    @Pointcut("execution(public * com.app.breeze.web..*.*(..))")
     public void webLog() {
     }
 
@@ -75,14 +76,7 @@ public class WebLogAspect {
         webLog.setStartTime(startTime.get());
         webLog.setUri(request.getRequestURI());
         webLog.setUrl(request.getRequestURL().toString());
-        Map<String,Object> logMap = new HashMap<>();
-        logMap.put("url",webLog.getUrl());
-        logMap.put("method",webLog.getMethod());
-        logMap.put("parameter",webLog.getParameter());
-        logMap.put("spendTime",webLog.getSpendTime());
-        logMap.put("description",webLog.getDescription());
-        //        LOGGER.info("{}", JsonUtil.objectToJson(webLog));
-        LOGGER.info(logMap.toString(), JsonMapper.nonDefaultMapper().toJson(webLog));
+        LOGGER.info(JsonMapper.nonDefaultMapper().toJson(webLog));
         return result;
     }
 

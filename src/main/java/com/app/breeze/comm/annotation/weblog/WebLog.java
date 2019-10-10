@@ -1,9 +1,12 @@
 package com.app.breeze.comm.annotation.weblog;
 
+import lombok.ToString;
+
 /**
  * Controller层的日志封装类
  * Created by macro on 2018/4/26.
  */
+@ToString
 public class WebLog {
     /**
      * 操作描述
