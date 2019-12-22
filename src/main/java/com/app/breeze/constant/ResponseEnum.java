@@ -1,6 +1,6 @@
 package com.app.breeze.constant;
 
-import com.app.breeze.comm.exception.assertion.BusinessExceptionAssert;
+import com.app.breeze.common.exception.assertion.BusinessExceptionAssert;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResponseEnum implements BusinessExceptionAssert {
+    DATA_NOT_FOUND(0000, "查询信息失败"),
     LICENCE_NOT_FOUND(7002, "用户未查询到");
 
     /**

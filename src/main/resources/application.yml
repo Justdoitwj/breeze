@@ -26,8 +26,8 @@ breeze:
 server:
   port: 8080
   ##项目名字配置
-#  servlet :
-#    context-path : /breeze
+  servlet :
+    context-path : /breeze
   tomcat:
     max-threads: 128
     min-spare-threads: 5
@@ -52,14 +52,27 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 mybatis:
-  mapperLocations: classpath*:mybatis/*/*.xml
+  mapperLocations: classpath*:dao/*.xml
   executor-type: reuse
-  typeAliasesPackage: com.*.pojo
+  typeAliasesPackage: com.app.breeze.domain.entity # 扫描实体类上的@Alias定义的实体类的别名
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #pagehelper分页插件
 #pagehelper:
 #  helperDialect: mysql
 #  reasonable: true
 #  supportMethodsArguments: true
 #  params: count=countSql
+aliyun:
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com # oss对外服务的访问域名
+    accessKeyId: test # 访问身份验证中用到用户标识
+    accessKeySecret: test # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    bucketName: macro-oss # oss的存储空间
+    policy:
+      expire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://39.98.190.128:8080/aliyun/oss/callback # 文件上传成功后的回调地址
+    dir:
+      prefix: mall/images/ # 上传文件夹路径前缀

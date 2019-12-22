@@ -35,7 +35,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>${defaultLogDir:-/qy/qy-doctorservice/logs}/log/%d/credit.%d.%i.log</FileNamePattern>
+            <FileNamePattern>${defaultLogDir:-/breeze/logs}/log/%d/credit.%d.%i.log</FileNamePattern>
             <!--<FileNamePattern>D:\logs\log\%d\credit.%d.%i.log</FileNamePattern>-->
             <!--日志文件保留天数-->
             <MaxHistory>${logMaxHistory:-15}</MaxHistory>
