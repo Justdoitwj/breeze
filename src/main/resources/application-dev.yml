@@ -2,9 +2,9 @@
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://rdss754eu936tqa222w5.mysql.rds.aliyuncs.com:3306/qy_doctor?characterEncoding=utf-8&autoReconnect=true&useSSL=false
-    username: sufc_dev
-    password: Dev123456
+    url: jdbc:mysql://localhost:3306/mydb?characterEncoding=utf-8&autoReconnect=true&useSSL=false
+    username: root
+    password: 123456
     #druid连接池配置
     druid:
       #引用上面的JDBC配置

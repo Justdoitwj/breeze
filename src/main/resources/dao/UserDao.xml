@@ -5,7 +5,7 @@
     <select id="findUserInfoByAccount" resultType="ControlUser">
         SELECT
           ID,NAME,ACCOUNT,PASSWORD,USER_MARK,PHONE,HOSPITAL_CODE,CREATOR,CREATE_TIME,MODIFIED_PERSON,MODIFIED_TIME,IS_VALIDE,GENDER,DOCTOR_CODE
-        FROM backend_control_user
+        FROM sys_user
         WHERE
           ACCOUNT = #{account}
     </select>
@@ -17,7 +17,7 @@
           u.ID as id,u.NAME as name,u.ACCOUNT as account,u.USER_MARK as userMark,u.PHONE as phone,h.NAME as hosName,u.CREATOR as creator,
           u.CREATE_TIME as createTime,u.MODIFIED_PERSON as modifiedPerson,u.MODIFIED_TIME as modifiedTime,u.IS_VALIDE as isValide,
           r.id as roleId,r.name as roleName,u.gender as gender
-        FROM backend_control_user u
+        FROM sys_user u
         LEFT JOIN access_hospital h ON u.HOSPITAL_CODE = h.`CODE`
         LEFT JOIN backend_control_role_user_ref ru ON u.ID = ru.USER_ID
         LEFT JOIN backend_control_role r ON r.ID = ru.ROLE_ID
@@ -25,13 +25,13 @@
     </select>
 
     <insert id="addUser" parameterType="java.util.HashMap">
-        INSERT INTO backend_control_user
+        INSERT INTO sys_user
         (name,account,password,user_mark,phone,hospital_code,creator,create_time,modified_person,modified_time,is_valide,gender,DOCTOR_CODE)
         VALUES (#{name},#{account},#{password},#{userMark},#{phone},#{hospitalCode},#{creator},#{createTime},#{modifiedPerson},#{modifiedTime},#{isValide},#{gender},#{doctorCode})
     </insert>
 
     <insert id="batchAddUser" parameterType="java.util.List">
-        INSERT INTO backend_control_user
+        INSERT INTO sys_user
                 (name,account,password,user_mark,phone,hospital_code,creator,create_time,modified_person,modified_time,is_valide,gender,DOCTOR_CODE)
         VALUES
         <foreach collection="list" item="item" separator=",">
@@ -56,13 +56,13 @@
 
 
     <update id="valideUser">
-        UPDATE backend_control_user
+        UPDATE sys_user
         SET is_valide = #{isValide},modified_time = #{modifiedTime},modified_person = #{modifiedPerson}
         WHERE id = #{userId}
     </update>
     
     <update id="resetPassword">
-        UPDATE backend_control_user
+        UPDATE sys_user
         SET password = #{password}
         WHERE id = #{userId}
     </update>
@@ -70,18 +70,18 @@
     <select id="findUserById" resultType="com.app.breeze.domain.entity.ControlUser">
         SELECT
           ID,NAME,ACCOUNT,PASSWORD,USER_MARK,PHONE,HOSPITAL_CODE,CREATOR,CREATE_TIME,MODIFIED_PERSON,MODIFIED_TIME,IS_VALIDE,GENDER
-        FROM backend_control_user
+        FROM sys_user
         WHERE id = #{userId}
     </select>
 
     <delete id="deleteUser" parameterType="java.lang.Integer">
-        DELETE FROM backend_control_user
+        DELETE FROM sys_user
         WHERE id = #{id}
     </delete>
 
     <select id="countUsersByPhone" resultType="java.lang.Integer">
         SELECT COUNT(1)
-        FROM backend_control_user
+        FROM sys_user
         WHERE phone = #{phone}
     </select>
 </mapper>

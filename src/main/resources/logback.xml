@@ -1,65 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
 
+    <!--
+        %p:输出优先级，即DEBUG,INFO,WARN,ERROR,FATAL
+        %r:输出自应用启动到输出该日志讯息所耗费的毫秒数
+        %t:输出产生该日志事件的线程名
+        %f:输出日志讯息所属的类别的类别名
+        %c:输出日志讯息所属的类的全名
+        %d:输出日志时间点的日期或时间，指定格式的方式： %d{yyyy-MM-dd HH:mm:ss}
+        %l:输出日志事件的发生位置，即输出日志讯息的语句在他所在类别的第几行。
+        %m:输出代码中指定的讯息，如log(message)中的message
+        %n:输出一个换行符号
+    -->
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%logger{50}包名缩写，%n是换行符 -->
+    <property name="log_pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"/>
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
     <!-- 日志存储路径 -->
     <springProperty
             scope="context"
             name="defaultLogDir"
-            source="breeze.log.history.logDir"
+            source="qy.log.history.logDir"
     />
 
     <!-- 日志备份保留时长 -->
     <springProperty
             scope="context"
             name="logMaxHistory"
-            source="breeze.log.history.maxHistory"
+            source="qy.log.history.maxHistory"
     />
 
     <!-- 日志大小 -->
     <springProperty
             scope="context"
             name="logMaxSize"
-            source="breeze.log.history.logMaxSize"
+            source="qy.log.history.logMaxSize"
     />
 
+    <property name="logMaxSize" value="200MB"/>
     <!--&lt;!&ndash;控制台日志， 控制台输出 &ndash;&gt;-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%msg%n</pattern>
+            <pattern>${log_pattern}</pattern>
             <charset>utf8</charset>
         </encoder>
     </appender>
+
 
     <!--文件日志， 按照每天生成日志文件 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--TimeBasedRollingPolicy 基于时间来定义轮转策略 -->
+        <!--SizeAndTimeBasedRollingPolicy 基于大小以及时间的轮转策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <FileNamePattern>${defaultLogDir:-/breeze/logs}/log/%d/credit.%d.%i.log</FileNamePattern>
-            <!--<FileNamePattern>D:\logs\log\%d\credit.%d.%i.log</FileNamePattern>-->
-            <!--日志文件保留天数-->
+            <!--日志文件输出的路径和文件名-->
+            <!--该属性定义了轮转时的属性名。它的值应该由文件名加上一个 %d 的占位符。%d 应该包含 java.text.SimpleDateFormat 中规定的日期格式。
+            如果省略掉这个日期格式，那么就默认为 yyyy-MM-dd。轮转周期是通过 fileNamePattern 推断出来的。
+            注意事项：
+            1.如果FileNamePattern中指定多个 %d，只能报留一个%d作为主要的，用于推断轮转周期。其它的 %d 占位符必须通过 'aux' 标记为辅助的。
+            2.MaxHistory 用来控制最多保留多少数量的归档文件，将会异步删除旧的文件。
+                         保留日志的量 = 轮转周期 * MaxHistory
+            3.FileNamePattern中除了 %d 之外还有 %i。这两个占位符都是强制要求的。在当前时间还没有到达周期轮转之前，日志文件达到了 maxFileSize 指定的大小，
+              会进行归档，递增索引从 0 开始。
+            -->
+            <!--轮询周期：天-->
+            <!--<FileNamePattern>${defaultLogDir:-/breeze/logs}/log/%d{yyyy-MM-dd, aux}/credit.%d.%i.log</FileNamePattern>-->
+            <!-- 每天轮转（晚上零点），自动将归档文件压缩成 GZIP 格式，减少日志占用空间-->
+            <FileNamePattern>${defaultLogDir:-/breeze/logs}/log/%d{yyyy-MM-dd, aux}/credit.%d.%i.zip</FileNamePattern>
+            <!--日志文件保留轮询周期个数-->
             <MaxHistory>${logMaxHistory:-15}</MaxHistory>
             <!--日志文件最大的大小-->
+            <!--单个日志文件最大的大小-->
             <MaxFileSize>${logMaxSize:-100MB}</MaxFileSize>
+            <!--这个可选属性用来控制所有归档文件总的大小。当达到这个大小后，旧的归档文件将会被异步的删除。使用这个属性时还需要设置 maxHistory 属性。
+            而且，maxHistory 将会被作为第一条件，该属性作为第二条件。-->
+            <!--归档文件总的大小-->
+            <totalSizeCap>1GB</totalSizeCap>
+            <!--cleanHistoryOnStart=true时在 appender 启动的时候，归档文件将会被删除。默认的值为 false-->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
+        <!--<append>：如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true。-->
+        <append>false</append>
         <encoder>
-            <pattern>%msg%n</pattern>
+            <pattern>${log_pattern}</pattern>
             <charset>utf8</charset>
         </encoder>
     </appender>
-
-    <!-- show parameters for hibernate sql 专为 Hibernate 定制 -->
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
-    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" />
-    <logger name="org.hibernate.SQL" level="DEBUG" />
-    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG" />
-    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" />
-
-    <!--myibatis log configure-->
-    <logger name="com.apache.ibatis" level="TRACE"/>
-    <logger name="java.sql.Connection" level="DEBUG"/>
-    <logger name="java.sql.Statement" level="DEBUG"/>
-    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">
