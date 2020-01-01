@@ -2,9 +2,9 @@
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mydb?characterEncoding=utf-8&autoReconnect=true&useSSL=false
+    url: jdbc:mysql://47.104.226.19:3306/breezedb?characterEncoding=utf-8&autoReconnect=true&useSSL=false
     username: root
-    password: 123456
+    password: Root123@
     #druid连接池配置
     druid:
       #引用上面的JDBC配置
