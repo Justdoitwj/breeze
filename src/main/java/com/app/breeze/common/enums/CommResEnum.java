@@ -14,19 +14,20 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum CommonResponseEnum implements CommonExceptionAssert {
+public enum CommResEnum implements CommonExceptionAssert {
     /**
      * 成功
      */
     SUCCESS(0, "SUCCESS"),
+    FAIL(9999, "FAIL"),
     /**
      * 服务器繁忙，请稍后重试
      */
-    SERVER_BUSY(9998, "服务器繁忙"),
+    SERVER_BUSY(9990, "服务器繁忙"),
     /**
      * 服务器异常，无法识别的异常，尽可能对通过判断减少未定义异常抛出
      */
-    SERVER_ERROR(9999, "网络异常"),
+    SERVER_ERROR(9991, "网络异常"),
 
     /**
      * 5***，一般对应于{@link com.app.breeze.common.exception.ArgumentException}，系统封装的工具出现异常
@@ -44,7 +45,7 @@ public enum CommonResponseEnum implements CommonExceptionAssert {
     /**
      * 返回码
      */
-    private int code;
+    private Integer code;
     /**
      * 返回消息
      */
@@ -57,7 +58,7 @@ public enum CommonResponseEnum implements CommonExceptionAssert {
     public static void assertSuccess(BaseResponse response) {
         SERVER_ERROR.assertNotNull(response);
         int code = response.getCode();
-        if (CommonResponseEnum.SUCCESS.getCode() != code) {
+        if (CommResEnum.SUCCESS.getCode() != code) {
             String msg = response.getMessage();
             throw new BaseException(code, msg);
         }

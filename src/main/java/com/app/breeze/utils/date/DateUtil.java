@@ -4,7 +4,11 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * date工具
@@ -154,6 +158,17 @@ public class DateUtil {
         return (day>0?day+",":"")+hour+":"+min+":"+s+"."+sss;
     }
 
+    public static void main(String[] args) {
+        ZonedDateTime zdt = ZonedDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        System.out.println(formatter.format(zdt));
 
+        DateTimeFormatter zhFormatter = DateTimeFormatter.ofPattern("yyyy MMM dd EE HH:mm", Locale.SIMPLIFIED_CHINESE);
+        System.out.println(zhFormatter.format(zdt));
+
+        DateTimeFormatter usFormatter = DateTimeFormatter.ofPattern("E, MMMM/dd/yyyy HH:mm", Locale.US);
+        System.out.println(usFormatter.format(zdt));
+
+    }
 
 }

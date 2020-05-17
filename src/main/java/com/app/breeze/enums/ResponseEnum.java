@@ -1,4 +1,4 @@
-package com.app.breeze.constant;
+package com.app.breeze.enums;
 
 import com.app.breeze.common.exception.assertion.BusinessExceptionAssert;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ public enum ResponseEnum implements BusinessExceptionAssert {
     /**
      * 返回码
      */
-    private int code;
+    private Integer code;
     /**
      * 返回消息
      */

@@ -1,6 +1,6 @@
 package com.app.breeze.common.pojo.response;
 
-import com.app.breeze.common.enums.CommonResponseEnum;
+import com.app.breeze.common.enums.CommResEnum;
 import com.app.breeze.common.enums.IResponseEnum;
 import lombok.Data;
 
@@ -23,7 +23,7 @@ public class BaseResponse {
 
     public BaseResponse() {
         // 默认创建成功的回应
-        this(CommonResponseEnum.SUCCESS);
+        this(CommResEnum.SUCCESS);
     }
 
     public BaseResponse(IResponseEnum responseEnum) {

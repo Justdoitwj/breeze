@@ -1,7 +1,7 @@
 package com.app.breeze.utils.date;
 
 import cn.hutool.core.util.StrUtil;
-import com.app.breeze.common.enums.CommonResponseEnum;
+import com.app.breeze.common.enums.CommResEnum;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -593,7 +593,7 @@ public class TimeUtil {
      * @return
      */
     public static LocalTime parseTime(String time, String pattern) {
-        CommonResponseEnum.DATE_NOT_NULL.assertNotEmpty(time);
+        CommResEnum.DATE_NOT_NULL.assertNotEmpty(time);
 
         DateTimeFormatter formatter = getFormatter(pattern);
         return LocalTime.parse(time, formatter);
@@ -628,7 +628,7 @@ public class TimeUtil {
         }
 
         if (!nullable) {
-            CommonResponseEnum.DATE_NOT_NULL.assertFail(time);
+            CommResEnum.DATE_NOT_NULL.assertFail(time);
         }
 
         return null;
@@ -902,7 +902,7 @@ public class TimeUtil {
      * @return
      */
     private static DateTimeFormatter getFormatter(String pattern) {
-        CommonResponseEnum.PATTERN_NOT_NULL.assertNotEmpty(pattern);
+        CommResEnum.PATTERN_NOT_NULL.assertNotEmpty(pattern);
 
         DateTimeFormatter formatter = FORMATTER_MAP.get(pattern);
         if (formatter == null) {
@@ -943,8 +943,8 @@ public class TimeUtil {
      * @return
      */
     public static long getBetweenSeconds(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        CommonResponseEnum.DATETIME_NOT_NULL.assertNotNull(startDateTime);
-        CommonResponseEnum.DATETIME_NOT_NULL.assertNotNull(endDateTime);
+        CommResEnum.DATETIME_NOT_NULL.assertNotNull(startDateTime);
+        CommResEnum.DATETIME_NOT_NULL.assertNotNull(endDateTime);
 
         Duration between = Duration.between(startDateTime, endDateTime);
 
@@ -958,8 +958,8 @@ public class TimeUtil {
      * @return
      */
     public static long getBetweenSeconds(LocalTime startTime, LocalTime endTime) {
-        CommonResponseEnum.TIME_NOT_NULL.assertNotNull(startTime);
-        CommonResponseEnum.TIME_NOT_NULL.assertNotNull(endTime);
+        CommResEnum.TIME_NOT_NULL.assertNotNull(startTime);
+        CommResEnum.TIME_NOT_NULL.assertNotNull(endTime);
 
         Duration between = Duration.between(startTime, endTime);
 

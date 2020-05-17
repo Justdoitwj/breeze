@@ -27,11 +27,11 @@ public class CallableDemo {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 //        testCallable1();
-//        testCallableSubmit();
+        testCallableSubmit();
 //        testCallableSubmit1();
 //        testCallableSubmit2();
 //        testRunnableSubmit3();
-        testThreadCatchException();
+//        testThreadCatchException();
     }
 
 
@@ -109,8 +109,11 @@ public class CallableDemo {
          *
          * 任务是在调用submit方法时就开始执行了，如果在调用get()方法时，任务已经执行完毕，那么就不会造成阻塞。
          */
+
+        System.out.println(executor.getActiveCount()+"");
         System.out.println("获取返回值: " + future.get());
         System.out.println("获取到结果之后 " + DateUtil.getDateTime());
+        System.out.println(executor.getActiveCount()+"");
     }
 
     /**

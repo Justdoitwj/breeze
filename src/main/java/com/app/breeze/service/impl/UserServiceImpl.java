@@ -1,7 +1,7 @@
 package com.app.breeze.service.impl;
 
-import com.app.breeze.common.pojo.response.BreezeResponse;
-import com.app.breeze.constant.ResponseEnum;
+import com.app.breeze.common.pojo.response.CommResponse;
+import com.app.breeze.enums.ResponseEnum;
 import com.app.breeze.dao.UserDao;
 import com.app.breeze.domain.entity.ControlUser;
 import com.app.breeze.domain.request.UserRequest;
@@ -9,6 +9,8 @@ import com.app.breeze.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @ProjectName: breeze
@@ -23,27 +25,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
     @Override
-    public BreezeResponse login(UserRequest userRequest) {
-        return null;
+    public CommResponse login(UserRequest userRequest) {
+        return CommResponse.success().setMessage("登录成功");
     }
 
     @Override
-    public BreezeResponse test() {
-        return BreezeResponse.success().setMessage("测试个接口");
+    public CommResponse test() {
+        return CommResponse.success().setMessage("测试个接口");
     }
 
     @Override
-    public BreezeResponse testException() {
+    public CommResponse testException() {
         ResponseEnum.LICENCE_NOT_FOUND.assertNotNull(null);
-        return BreezeResponse.success().setMessage("测试个接口");
+        return CommResponse.success().setMessage("测试个接口");
     }
 
     @Override
-    public BreezeResponse findUserInfoByAccount(String phone) {
+    public CommResponse findUserInfoByAccount(String phone) {
         ControlUser user=userDao.findUserInfoByAccount(phone);
-        return BreezeResponse.success().setMessage("用户信息查询成功！").setData(user);
+        user.setNICKName("测试不符合驼峰命名的字段是否会被jackjson正常解析！！！");
+        user.setTestLong(5454848454512121212L);
+        return CommResponse.success().setMessage("用户信息查询成功！").setData(user);
     }
 
 }

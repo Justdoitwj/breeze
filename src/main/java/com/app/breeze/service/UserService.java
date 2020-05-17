@@ -1,15 +1,15 @@
 package com.app.breeze.service;
 
-import com.app.breeze.common.pojo.response.BreezeResponse;
+import com.app.breeze.common.pojo.response.CommResponse;
 import com.app.breeze.domain.request.UserRequest;
 
 public interface UserService {
 
-    BreezeResponse login(UserRequest userRequest);
+    CommResponse login(UserRequest userRequest);
 
-    BreezeResponse test();
+    CommResponse test();
 
-    BreezeResponse testException();
+    CommResponse testException();
 
-    BreezeResponse findUserInfoByAccount(String phone);
+    CommResponse findUserInfoByAccount(String phone);
 }

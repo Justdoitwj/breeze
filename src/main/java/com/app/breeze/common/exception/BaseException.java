@@ -32,7 +32,7 @@ public class BaseException extends RuntimeException {
         super(msg);
         this.responseEnum = new IResponseEnum() {
             @Override
-            public int getCode() {
+            public Integer getCode() {
                 return code;
             }
 

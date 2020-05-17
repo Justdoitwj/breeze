@@ -1,5 +1,6 @@
 package com.app.breeze.common.enums;
 
+import com.app.breeze.common.exception.assertion.ArgumentExceptionAssert;
 import com.app.breeze.common.exception.assertion.CommonExceptionAssert;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ArgumentResponseEnum implements CommonExceptionAssert {
+public enum ArgumentResponseEnum implements ArgumentExceptionAssert {
     /**
      * 绑定参数校验异常
      */
@@ -23,7 +24,7 @@ public enum ArgumentResponseEnum implements CommonExceptionAssert {
     /**
      * 返回码
      */
-    private int code;
+    private Integer code;
     /**
      * 返回消息
      */

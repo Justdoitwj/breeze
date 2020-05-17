@@ -1,5 +1,6 @@
 package com.app.breeze.domain.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +33,7 @@ public class ControlUser implements Serializable {
     private String userMark;
     private String phone;
     private Integer creator;
-    //格式化时间格式数据信息
+    //注解@JsonFormat是jackjson提供的注解，主要是后台到前台的时间格式的转换
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private Integer modifiedPerson;
@@ -45,4 +46,7 @@ public class ControlUser implements Serializable {
 
     private String yxUser;
     private String yxToken;
+
+    private String NICKName;
+    private Long testLong;
 }

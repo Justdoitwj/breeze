@@ -1,11 +1,15 @@
 package com.app.breeze.domain.request;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.app.breeze.common.annotation.validate.Email;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 /**
  * @ProjectName: breeze
@@ -33,4 +37,10 @@ public class UserRequest {
     private String phoneNum;
     @Email
     private String email;
+    //注解@DateTimeFormat主要是前台到后台的时间格式的转换
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    //注解@DateTimeFormat主要是前台到后台的时间格式的转换
+    private Date modifiedTime;
+
+
 }

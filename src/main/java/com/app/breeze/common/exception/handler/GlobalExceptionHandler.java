@@ -1,22 +1,21 @@
 package com.app.breeze.common.exception.handler;
 
 import com.app.breeze.common.enums.ArgumentResponseEnum;
-import com.app.breeze.common.enums.CommonResponseEnum;
+import com.app.breeze.common.enums.CommResEnum;
 import com.app.breeze.common.enums.ServletResponseEnum;
 import com.app.breeze.common.exception.BaseException;
 import com.app.breeze.common.exception.BusinessException;
 import com.app.breeze.common.i18n.UnifiedMessageSource;
+import com.app.breeze.common.pojo.response.CommResponse;
 import com.app.breeze.common.pojo.response.ErrorResponse;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -35,6 +34,8 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.util.Map;
+
 /**
  * <p>全局异常处理器</p>
  *
@@ -42,15 +43,12 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  * @date 2019/5/2
  */
 @Slf4j
-@Component
 @ControllerAdvice
-@ConditionalOnWebApplication
-@ConditionalOnMissingBean(UnifiedExceptionHandler.class)
-public class UnifiedExceptionHandler {
+public class GlobalExceptionHandler {
     /**
      * 生产环境
      */
-    private final static String ENV_PROD = "prod";
+    private final static String ENV_PROD = "dev";
 
     @Autowired
     private UnifiedMessageSource unifiedMessageSource;
@@ -91,7 +89,6 @@ public class UnifiedExceptionHandler {
 
         return new ErrorResponse(e.getResponseEnum().getCode(), getMessage(e));
     }
-
     /**
      * 自定义异常
      *
@@ -105,7 +102,6 @@ public class UnifiedExceptionHandler {
 
         return new ErrorResponse(e.getResponseEnum().getCode(), getMessage(e));
     }
-
     /**
      * Controller上一层相关异常
      *
@@ -132,7 +128,7 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleServletException(Exception e) {
         log.error(e.getMessage(), e);
-        int code = CommonResponseEnum.SERVER_ERROR.getCode();
+        int code = CommResEnum.SERVER_ERROR.getCode();
         try {
             ServletResponseEnum servletExceptionEnum = ServletResponseEnum.valueOf(e.getClass().getSimpleName());
             code = servletExceptionEnum.getCode();
@@ -142,8 +138,8 @@ public class UnifiedExceptionHandler {
 
         if (ENV_PROD.equals(profile)) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如404.
-            code = CommonResponseEnum.SERVER_ERROR.getCode();
-            BaseException baseException = new BaseException(CommonResponseEnum.SERVER_ERROR);
+            code = CommResEnum.SERVER_ERROR.getCode();
+            BaseException baseException = new BaseException(CommResEnum.SERVER_ERROR);
             String message = getMessage(baseException);
             return new ErrorResponse(code, message);
         }
@@ -210,17 +206,16 @@ public class UnifiedExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ErrorResponse handleException(Exception e) {
-        log.error(e.getMessage(), e);
-
+        log.error(e.getMessage(),e);
         if (ENV_PROD.equals(profile)) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-            int code = CommonResponseEnum.SERVER_ERROR.getCode();
-            BaseException baseException = new BaseException(CommonResponseEnum.SERVER_ERROR);
+            int code = CommResEnum.SERVER_ERROR.getCode();
+            BaseException baseException = new BaseException(CommResEnum.SERVER_ERROR);
             String message = getMessage(baseException);
             return new ErrorResponse(code, message);
         }
 
-        return new ErrorResponse(CommonResponseEnum.SERVER_ERROR.getCode(), e.getMessage());
+        return new ErrorResponse(CommResEnum.SERVER_ERROR.getCode(), e.getMessage());
     }
 
 }
