@@ -1,7 +1,16 @@
 package com.app.breeze;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
+
 
 /**
  * @ProjectName: breeze
@@ -38,4 +47,26 @@ public class BreezeApplication {
 //        //5、追加默认转换器
 //        super.addDefaultHttpMessageConverters(converters);
 //    }
+
+
+    @Bean
+    public SimpleClientHttpRequestFactory httpRequestFactory(){
+        SimpleClientHttpRequestFactory httpRequestFactory=new SimpleClientHttpRequestFactory();
+        SocketAddress address =new InetSocketAddress("127.0.0.1",30101);
+        Proxy proxy=new Proxy(Proxy.Type.HTTP,address);
+        httpRequestFactory.setProxy(proxy);
+        return httpRequestFactory;
+
+    }
+    /**
+     * 在目标类上加入
+     * @Autowired
+     *     RestTemplate restTemplate;
+     *     restTemplate.
+     *      restTemplate.getForObject()
+     *
+     *      接口契约可参考sdk的
+     */
+
+
 }
