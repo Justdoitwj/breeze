@@ -370,7 +370,6 @@ public class RedisUtil {
      * @return
      */
     public Object hGet(String key, String field) {
-        redisTemplate.opsForHash().putIfAbsent()
         return redisTemplate.opsForHash().get(key, field);
     }
 

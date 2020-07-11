@@ -1,8 +1,8 @@
 #Breeze 一个让人如沐春风的后端Springboot2.X脚手架项目
 项目的目录结构：
 breeze
-  |-- common 通用代码：配置、自定义注解、异常拦截
-  |-- constant 常量级枚举
+  | -- common 通用代码：配置、自定义注解、异常拦截
+  | -- constant 常量级枚举
   |-- domain 各种bean类
   |-- schedule 定时器
   |-- service 业务层
