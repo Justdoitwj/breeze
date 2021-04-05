@@ -1,0 +1,60 @@
+<DOCTYPE html>  
+<html>  
+<head>  
+<meta charset="UTF-8">  
+<title>测试练习</title>  
+</head>  
+<body>  
+<div class="parent">    
+    <div class="side">侧栏</div>  
+    <div class="main">
+    	<div class="left-bt1">
+    		<button>左侧按钮</button>
+    	</div>
+    	<div class="rigth-bt">
+    		<button>右侧按钮</button>
+    	</div>
+    </div>
+</div>  
+</body> 
+<style>
+	body{   
+        margin:0;   
+        padding:0;   
+        font-size:30px;   
+        font-weight:bold;
+        background: #d9d9de;       
+    }   
+    .parent{
+    	padding: 5px;
+  		box-sizing: border-box;
+        text-align:center;   
+        line-height:200px;
+        height: 100%;   
+        display:flex;   
+    }    
+    .side{
+        width:200px;   
+        height:100%;   
+        background:red;   
+        margin-right:10px;   
+    }   
+    .main{   
+        background:blue;   
+        height:100%;   
+        flex:1;   
+        display: flex;
+        justify-content: space-between;
+    }​
+    .left-bt1{
+    	align-items: center;
+		background: #ffffff;
+    	height: 30px;
+    } 
+	.rigth-bt{
+		align-items: center;
+		height: 30px;
+	  background: #ffffff;
+	}
+</style>
+</html>  
